@@ -1,0 +1,71 @@
+version: 2
+
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+
+      - run:
+          name: Build image
+          command: docker run --rm -v $PWD/images:/images $(docker build -q .)
+
+      - store_artifacts:
+          path: ~/project/images/
+          destination: images
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - images
+
+  deploy:
+    machine: true
+    steps:
+      - run:
+          name: Install dependencies
+          command: |
+            sudo pip install ghp-import
+
+      - add_ssh_keys:
+          fingerprints:
+            - "2d:5b:a0:ab:3d:e1:24:95:fc:54:1f:87:95:fe:6c:cc"
+
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Write index.html
+          command: |
+            cat >images/index.html <<EOL
+            <!doctype html>
+            <html>
+              <head><title>Lecture Capture Agent Images</title></head>
+              <body>
+                <p>
+                  <a href="lc-agent.iso">Lecture Capture Agent Bootstrap ISO</a>.
+                </p>
+              </body>
+            </html>
+            EOL
+
+      - run:
+          name: Update gh-pages branch
+          command: |
+            git config --global user.email "$GH_EMAIL"
+            git config --global user.name "$GH_NAME"
+            ghp-import --no-jekyll --push --force images/
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
