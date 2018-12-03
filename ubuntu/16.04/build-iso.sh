@@ -3,7 +3,7 @@ set -e
 
 # lookup specific binaries
 : "${BIN_7Z:=$(type -P 7z)}"
-: "${BIN_MKISOFS:=$(type -P mkisofs)}"
+: "${BIN_XORRISO:=$(type -P xorriso)}"
 
 # get parameters
 SSH_PUBLIC_KEY_FILE=${1:-"$HOME/.ssh/id_rsa.pub"}
@@ -51,12 +51,7 @@ cat "./initrd" | gzip -9c > "$TMP_DISC_DIR/initrd.gz"
 # build iso
 cd "$TMP_DISC_DIR"
 rm -r '[BOOT]'
-"$BIN_MKISOFS" -r -V "Capture Agent Install" \
-  -cache-inodes -J -l -b isolinux.bin -c boot.cat \
-  -no-emul-boot -boot-load-size 4 -boot-info-table \
-  -o "${TARGET_ISO}" ./
-isohybrid "${TARGET_ISO}"
-
+"$BIN_XORRISO" -as mkisofs -r -V "Capture Agent Install" -J -b isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -input-charset utf-8 -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -isohybrid-gpt-basdat -o "$TARGET_ISO" ./
 
 # go back to initial directory
 cd "$CURRENT_DIR"
