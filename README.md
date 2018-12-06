@@ -31,3 +31,40 @@ variable. So, with ``IMAGE_NAME=my-image``, the script writes the image to
 The list of keys which can log in as root for deploying the boxes is contained
 in the ``deploy-keys.pub`` file. The private halves of those keys can be found
 in the DevOps Division's secrets store.
+
+## BIOS configuration
+
+Existing PCs have possibly been configured with legacy (BIOS) boot enabled.
+Going forward (and now necessary for the Dell Optiplex 7060's with NVMe SSDs)
+we should be using UEFI booting.
+
+The following BIOS settings are for Dell PC's but similar options should be
+available on other hardware.
+
+Press ``F2`` to enter BIOS on boot.
+* __General__
+  * __Boot Sequence__
+    * Boot List Option = UEFI
+  * __Advanced Boot Options__
+    * Enable Legacy Option ROMs = _unchecked_
+  * __UEFI Boot Path Security__
+    * Always, Except Internal HDD
+* __System Configuration__
+  * __SATA Operation__
+    * AHCI __*__
+* __Secure Boot__
+  * __Secure Boot Enable__
+    * Enabled
+
+__*__ - Necessary for unattended installation boot media to see the NVMe in a
+Dell Optiplex 7060.
+
+For PCs in the wild, the Admin Password should also be enabled under Security
+to prevent tampering.
+
+## Booting from USB
+
+If the internal disk already has bootable partitions then these may be higher in
+the boot order than the USB drive. Rather than change the ordering in the BIOS,
+it is easier to just press ``F12`` during boot to bring up a boot menu where
+the USB device can be selected.
