@@ -11,7 +11,7 @@ ADD ./ubuntu/ /workspace/ubuntu/
 ADD ./entrypoint.sh /workspace
 ADD ./deploy-keys.pub /workspace
 
-ENV VERSION=16.04 IMAGE_NAME=lc-agent
+ENV VERSION=18.04 IMAGE_NAME=lc-agent
 ENTRYPOINT ["./entrypoint.sh"]
 
 # vim:sw=2:ts=2:et:sts=2
