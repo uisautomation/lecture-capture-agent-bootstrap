@@ -9,6 +9,11 @@ if lshw -c net | grep -q "driverversion=3.2.6-k"; then
 
     depmod
     update-initramfs -u
+
+    if [ ! -f /var/log/e1000e.log ]; then
+        shutdown -r +1 "Rebooting to update network driver"
+    fi
+    echo "$(date -Iseconds) Driver update to ${MODDIR}updates" >> /var/log/e1000e.log
 fi
 
 exit 0;
