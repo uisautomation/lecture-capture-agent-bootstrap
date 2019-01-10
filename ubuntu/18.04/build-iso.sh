@@ -40,6 +40,8 @@ mkdir "./custom"
 cp "$SCRIPT_DIR/custom/preseed.cfg" "./preseed.cfg"
 cp "$SSH_PUBLIC_KEY_FILE" "./custom/userkey.pub"
 cp "$SCRIPT_DIR/custom/ssh-host-keygen.service" "./custom/ssh-host-keygen.service"
+cp "$SCRIPT_DIR/custom/e1000e.ko" "./custom/e1000e.ko"
+cp "$SCRIPT_DIR/custom/rc.local" "./custom/rc.local"
 
 # append assets to initrd image
 cd "$TMP_INITRD_DIR"

@@ -51,13 +51,14 @@ Press ``F2`` to enter BIOS on boot.
     * Always, Except Internal HDD
 * __System Configuration__
   * __SATA Operation__
-    * AHCI __*__
+    * AHCI __[1]__
 * __Secure Boot__
   * __Secure Boot Enable__
-    * Enabled
+    * Disabled __[2]__
 
-__*__ - Necessary for unattended installation boot media to see the NVMe in a
-Dell Optiplex 7060.
+__[1]__ - Necessary for unattended installation boot media to see the NVMe in a Dell Optiplex 7060.
+
+__[2]__ - To allow use of unsigned Intel network driver
 
 For PCs in the wild, the Admin Password should also be enabled under Security
 to prevent tampering.
