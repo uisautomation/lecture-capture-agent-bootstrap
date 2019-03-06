@@ -1,5 +1,7 @@
 # Lecture Capture Agent Bootstrap
 
+> **This repository has been moved to https://gitlab.developers.cam.ac.uk/uis/devops/lecture-capture/agent-bootstrap/**
+
 This directory contains a Docker-ised script to build our [custom Ubuntu image for
 a Lecture Capture Agent](https://uisautomation.github.io/lecture-capture-agent-bootstrap/lc-agent.iso).
 
